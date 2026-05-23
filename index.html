@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DICT Tech4ED Mobile Monitoring System</title>
+    <!-- Tailwind CSS for modern mobile layout sizing -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dictBlue: '#002855',   /* Primary Corporate DICT Blue */
+                        dictRed: '#D92332',    /* Vibrant Accent DICT Red */
+                        dictYellow: '#F2A900', /* Highlight DICT Gold/Yellow */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-slate-100 font-sans min-h-screen flex flex-col justify-between">
+
+    <!-- Mobile-Responsive Header Component Bar -->
+    <header class="bg-dictBlue text-white shadow-md border-b-4 border-dictYellow sticky top-0 z-50">
+        <div class="max-w-xl mx-auto px-4 py-3 flex items-center justify-between">
+            <div class="flex items-center space-x-2.5">
+                <div class="bg-white px-2 py-1 rounded text-dictBlue font-black text-sm tracking-wider select-none">
+                    DICT
+                </div>
+                <div>
+                    <h1 class="text-sm font-bold tracking-wide">Tech4ED Center</h1>
+                    <p id="headerSubtitle" class="text-[10px] text-gray-300">Mobile Sign-In Portal</p>
+                </div>
+            </div>
+            
+            <!-- Contextual Navigation Toggle Button -->
+            <button id="viewToggleBtn" class="flex items-center space-x-1 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-[10px] font-bold px-2.5 py-1.5 rounded transition">
+                <svg id="toggleIcon" xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-dictYellow" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <span id="toggleText">Admin Panel</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Content Housing - Optimized Max-Width for Smartphones -->
+    <main class="flex-grow w-full max-w-xl mx-auto px-4 py-6 flex items-start justify-center">
+
+        <!-- VIEW 1: Mobile Client Registration Kiosk Form -->
+        <section id="kioskView" class="w-full bg-white rounded-xl shadow-sm border border-slate-200 p-5 md:p-6">
+            <div class="text-center mb-5">
+                <h2 class="text-xl font-black text-dictBlue">Welcome to Tech4ED</h2>
+                <p class="text-xs text-gray-500 mt-1">Please log your visit details using your smartphone to access resources.</p>
+            </div>
+            
+            <!-- Success Toast Notification Alert Banner -->
+            <div id="successToast" class="hidden mb-4 bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs rounded-lg p-3 text-center font-semibold animate-pulse">
+                ✓ Check-In Confirmed! Your logs have been securely submitted.
+            </div>
+
+            <form id="logForm" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-1">Full Name</label>
+                    <input type="text" id="clientName" required placeholder="Juan Dela Cruz" 
+                           class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dictBlue text-sm font-medium">
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <div class="col-span-2">
+                        <label class="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-1">Complete Address</label>
+                        <input type="text" id="clientAddress" required placeholder="Barangay, City" 
+                               class="w-full px-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-dictBlue text-sm font-medium">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-1">Gender</label>
+                        <select id="clientGender" required 
+                                class="w-full px-2 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-dictBlue text-sm font-medium">
+                            <option value="" disabled selected>Select...</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                            <option value="Prefer not to say">Prefer not to say</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 uppercase tracking-wider mb-1">Purpose of Visit</label>
+                    <select id="clientPurpose" required 
+                            class="w-full px-3 py-2.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-dictBlue text-sm font-medium">
+                        <option value="" disabled selected>Select what you will use today...</option>
+                        <option value="Internet Browsing / Research">Internet Browsing / Research</option>
+                        <option value="Online Training / Web Courses">Online Training / Web Courses</option>
+                        <option value="Government e-Services (SSS, PhilHealth, etc.)">Government e-Services</option>
+                        <option value="Printing / Document Scanning">Printing / Document Scanning</option>
+                        <option value="ICT Skills Development / Programming">ICT Skills Development</option>
+                        <option value="Other Digital Service">Other Tech4ED Service</option>
+                    </select>
+                </div>
+                <button type="submit" 
+                        class="w-full bg-dictRed hover:bg-red-700 text-white py-3 px-4 rounded-lg font-bold tracking-wider shadow transitions duration-150 uppercase text-xs mt-2">
+                    Submit Sign-In Log
+                </button>
+            </form>
+        </section>
+
+        <!-- VIEW 2: Secured Credentials Verification Login Gate -->
+        <section id="loginGateView" class="hidden w-full max-w-sm bg-white rounded-xl shadow-sm border border-slate-200 p-6">
+            <div class="text-center mb-5">
+                <div class="w-10 h-10 bg-red-50 text-dictRed rounded-full flex items-center justify-center mx-auto mb-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
+                </div>
+                <h2 class="text-lg font-bold text-dictBlue">Admin Security Portal</h2>
+                <p class="text-[11px] text-gray-500 mt-0.5">Authorized personnel verification required.</p>
+            </div>
+
+            <!-- Login Error Prompt Banner -->
+            <div id="loginError" class="hidden mb-3 bg-red-50 border border-red-200 text-dictRed text-[11px] rounded p-2 text-center font-medium">
+                Incorrect credentials. Please try again.
+            </div>
+
+            <form id="adminAuthForm" class="space-y-3.5">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 uppercase mb-1">Username</label>
+                    <input type="text" id="adminUser" required autocomplete="off" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-dictBlue text-sm">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-700 uppercase mb-1">Password</label>
+                    <input type="password" id="adminPass" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-1 focus:ring-dictBlue text-sm">
+                </div>
+                <button type="submit" class="w-full bg-dictBlue hover:bg-slate-800 text-white py-2.5 rounded-lg font-bold text-xs tracking-wide transition duration-150">
+                    Verify & Unlock Dashboard
+                </button>
+            </form>
+        </section>
+
+        <!-- VIEW 3: Admin Metrics Control Center and Logs Dashboard -->
+        <section id="adminDashboardView" class="hidden w-full space-y-4">
+            
+            <!-- Summary Statistic Cards Stack (Stacked for Phone Screens) -->
+            <div class="grid grid-cols-1 gap-3">
+                <div class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-dictBlue flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Total Visitors Logged</p>
+                        <h3 id="statTotal" class="text-xl font-black text-gray-800 mt-0.5">0</h3>
+                    </div>
+                    <div class="p-2 bg-blue-50 text-dictBlue rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-dictYellow flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Top Center Activity</p>
+                        <h3 id="statPurpose" class="text-xs font-bold text-gray-800 mt-1 max-w-[200px] truncate">None yet</h3>
+                    </div>
+                    <div class="p-2 bg-yellow-50 text-dictYellow rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 002 2h2a2 2 0 002-2z" /></svg>
+                    </div>
+                </div>
+                <div class="bg-white p-3 rounded-lg shadow-sm border-l-4 border-dictRed flex items-center justify-between">
+                    <div>
+                        <p class="text-gray-400 text-[10px] font-bold uppercase tracking-wider">Tracking Date</p>
+                        <h3 id="statDate" class="text-xs font-bold text-gray-800 mt-1">-- --, ----</h3>
+                    </div>
+                    <div class="p-2 bg-red-50 text-dictRed rounded-full">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2-2v12a2 2 0 002 2z" /></svg>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Database Structured Activity Log Module Box -->
+            <div class="bg-white rounded-lg shadow-sm p-4 border border-slate-200 flex flex-col min-h-[300px]">
+                <div class="flex flex-col gap-2.5 border-b pb-3 mb-3">
+                    <h2 class="text-sm font-bold text-dictBlue">
+                        Activity Registry Database Logs
+                    </h2>
+                    
+                    <div class="flex items-center gap-2">
+                        <input type="text" id="searchLog" placeholder="Search logs..." 
+                               class="px-2.5 py-1.5 border border-gray-300 rounded-md focus:outline-none focus:ring-1 focus:ring-dictBlue text-xs flex-grow">
+                        <button id="exportBtn" class="bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs px-2.5 py-1.5 rounded-md transition flex items-center shrink-0 shadow-sm">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 mr-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" /></svg>
+                            CSV
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Database Scrollable Responsive Log Table -->
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200 text-left text-[11px]">
+                        <thead class="bg-gray-50 text-gray-700 uppercase font-bold tracking-wider">
+                            <tr>
+                                <th class="px-2.5 py-2">Time</th>
+                                <th class="px-2.5 py-2">Name</th>
+                                <th class="px-2.5 py-2">Gender</th>
+                                <th class="px-2.5 py-2">Address</th>
+                                <th class="px-2.5 py-2">Purpose Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logTableBody" class="divide-y divide-gray-100 text-gray-600">
+                            <!-- Dynamically Injected Content Rows -->
+                        </tbody>
+                    </table>
+                    <div id="emptyState" class="hidden text-center py-8 text-gray-400 text-xs">
+                        No records match current parameters.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Mobile Ground Footer Notice -->
+    <footer class="bg-gray-200 border-t border-gray-300 text-center py-2.5 text-[10px] text-gray-500 font-medium">
+        DICT Tech4ED Management Infrastructure Tool
+    </footer>
+
+    <!-- Local Native Routing Logic Controller Engine -->
+    <script>
+        // System Internal Registry Application State Configuration 
+        let clientLogs = JSON.parse(localStorage.getItem('tech4ed_secure_logs')) || [];
+        let isAdminAuthenticated = false;
+        let currentActiveView = "KIOSK"; 
+
+        // Global DOM Element Map Handlers
+        const viewToggleBtn = document.getElementById('viewToggleBtn');
+        const toggleText = document.getElementById('toggleText');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const headerSubtitle = document.getElementById('headerSubtitle');
+
+        const kioskView = document.getElementById('kioskView');
+        const loginGateView = document.getElementById('loginGateView');
+        const adminDashboardView = document.getElementById('adminDashboardView');
+        const successToast = document.getElementById('successToast');
+        const loginError = document.getElementById('loginError');
+
+        const logForm = document.getElementById('logForm');
+        const adminAuthForm = document.getElementById('adminAuthForm');
+        const logTableBody = document.getElementById('logTableBody');
+        const emptyState = document.getElementById('emptyState');
+        const searchLog = document.getElementById('searchLog');
+        const exportBtn = document.getElementById('exportBtn');
+
+        const statTotal = document.getElementById('statTotal');
+        const statPurpose = document.getElementById('statPurpose');
+        const statDate = document.getElementById('statDate');
+
+        // Central State Layout Transition Controller
+        function switchView(targetView) {
+            currentActiveView = targetView;
+            
+            kioskView.classList.add('hidden');
+            loginGateView.classList.add('hidden');
+            adminDashboardView.classList.add('hidden');
+            loginError.classList.add('hidden');
+
+            if (targetView === "KIOSK") {
+                kioskView.classList.remove('hidden');
+                headerSubtitle.textContent = "Mobile Sign-In Portal";
+                toggleText.textContent = "Admin Panel";
+                toggleIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />`;
+            } 
+            else if (targetView === "GATE") {
+                loginGateView.classList.remove('hidden');
+                headerSubtitle.textContent = "Security Verification";
+                toggleText.textContent = "Back to Form";
+                toggleIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />`;
+            } 
+            else if (targetView === "DASHBOARD") {
+                adminDashboardView.classList.remove('hidden');
+                headerSubtitle.textContent = "Administrative Logs Dashboard";
+                toggleText.textContent = "Lock System";
+                toggleIcon.innerHTML = `<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z" />`;
+                
+                updateDashboardAnalytics();
+                renderLogs();
+            }
+        }
+
+        // Corner Utility Trigger Router Interrupter Hook
+        viewToggleBtn.addEventListener('click', function() {
+            if (currentActiveView === "KIOSK") {
+                if (isAdminAuthenticated) {
+                    switchView("DASHBOARD");
+                } else {
+                    switchView("GATE");
+                }
+            } else if (currentActiveView === "GATE") {
+                switchView("KIOSK");
+            } else if (currentActiveView === "DASHBOARD") {
+                isAdminAuthenticated = false;
+                switchView("KIOSK");
+            }
+        });
+
+        // ACTION: Process Form Entries 
+        logForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const nameInput = document.getElementById('clientName');
+            const addressInput = document.getElementById('clientAddress');
+            const genderInput = document.getElementById('clientGender');
+            const purposeInput = document.getElementById('clientPurpose');
+
+            const timestampString = new Date().toLocaleTimeString('en-US', { 
+                hour: '2-digit', minute: '2-digit', second: '2-digit' 
+            });
+
+            const entryRecord = {
+                id: Date.now(),
+                name: nameInput.value.trim(),
+                address: addressInput.value.trim(),
+                gender: genderInput.value,
+                purpose: purposeInput.value,
+                timestamp: timestampString
+            };
+
+            clientLogs.unshift(entryRecord);
+            localStorage.setItem('tech4ed_secure_logs', JSON.stringify(clientLogs));
+
+            nameInput.value = "";
+            addressInput.value = "";
+            genderInput.selectedIndex = 0;
+            purposeInput.selectedIndex = 0;
+
+            successToast.classList.remove('hidden');
+            setTimeout(() => { successToast.classList.add('hidden'); }, 3500);
+        });
+
+        // ACTION: Secure Password Validation Gate Logic (`admin` / `1234`)
+        adminAuthForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const userField = document.getElementById('adminUser');
+            const passField = document.getElementById('adminPass');
+
+            if (userField.value === "admin" && passField.value === "1234") {
+                isAdminAuthenticated = true;
+                userField.value = "";
+                passField.value = "";
+                switchView("DASHBOARD");
+            } else {
+                loginError.classList.remove('hidden');
+                passField.value = "";
+            }
+        });
+
+        // Metrics Engine Aggregator compiler loops
+        function updateDashboardAnalytics() {
+            statTotal.textContent = clientLogs.length;
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            statDate.textContent = new Date().toLocaleDateString('en-US', options);
+
+            if (clientLogs.length === 0) {
+                statPurpose.textContent = "None yet";
+                return;
+            }
+
+            const tracks = {};
+            clientLogs.forEach(entry => { tracks[entry.purpose] = (tracks[entry.purpose] || 0) + 1; });
+
+            let apexPurpose = "";
+            let recordTier = 0;
+            for (const purposeKey in tracks) {
+                if (tracks[purposeKey] > recordTier) {
+                    recordTier = tracks[purposeKey];
+                    apexPurpose = purposeKey;
+                }
+            }
+            statPurpose.textContent = apexPurpose;
+        }
+
+        // Live Dynamic String Search Table Renderer Interface engine
+        function renderLogs(queryKeyword = "") {
+            logTableBody.innerHTML = "";
+            
+            const recordsFiltered = clientLogs.filter(item => 
+                item.name.toLowerCase().includes(queryKeyword.toLowerCase()) ||
+                item.address.toLowerCase().includes(queryKeyword.toLowerCase()) ||
+                (item.gender && item.gender.toLowerCase().includes(queryKeyword.toLowerCase())) ||
+                item.purpose.toLowerCase().includes(queryKeyword.toLowerCase())
+            );
+
+            if (recordsFiltered.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            }
+            emptyState.classList.add('hidden');
+
+            recordsFiltered.forEach(logItem => {
+                const trElement = document.createElement('tr');
+                trElement.className = "hover:bg-slate-50 border-b border-slate-100";
+                trElement.innerHTML = `
+                    <td class="px-2.5 py-2.5 font-medium text-dictBlue whitespace-nowrap">${logItem.timestamp}</td>
+                    <td class="px-2.5 py-2.5 font-bold text-slate-800">${escapeString(logItem.name)}</td>
+                    <td class="px-2.5 py-2.5 font-medium text-slate-600">${escapeString(logItem.gender || "N/A")}</td>
+                    <td class="px-2.5 py-2.5 text-slate-500">${escapeString(logItem.address)}</td>
+                    <td class="px-2.5 py-2.5">
+                        <span class="px-1.5 py-0.5 rounded text-[9px] font-bold bg-blue-50 text-dictBlue border border-blue-100 whitespace-nowrap">
+                            ${escapeString(logItem.purpose)}
+                        </span>
+                    </td>
+                `;
+                logTableBody.appendChild(trElement);
+            });
+        }
+
+        function escapeString(text) {
+            return text.replace(/[&<>'"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[c] || c));
+        }
+
+        searchLog.addEventListener('input', function(event) {
+            renderLogs(event.target.value);
+        });
+
+        // Extraction File Data Engine Handler 
+        exportBtn.addEventListener('click', function() {
+            if (clientLogs.length === 0) {
+                alert("Database engine is empty. No tracking extraction records compiled.");
+                return;
+            }
+
+            let fileCsvBuffer = "data:text/csv;charset=utf-8,Time Registry Log,Client Name,Gender,Address,Purpose of Activity\n";
+            clientLogs.forEach(entry => {
+                fileCsvBuffer += `"${entry.timestamp}","${entry.name.replace(/"/g, '""')}","${(entry.gender || "N/A").replace(/"/g, '""')}","${entry.address.replace(/"/g, '""')}","${entry.purpose}"\n`;
+            });
+
+            const uriPayloadEncoded = encodeURI(fileCsvBuffer);
+            const hiddenDownloadLink = document.createElement("a");
+            hiddenDownloadLink.setAttribute("href", uriPayloadEncoded);
+            hiddenDownloadLink.setAttribute("download", `Tech4ED_MobileExport_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(hiddenDownloadLink);
+            hiddenDownloadLink.click();
+            document.body.removeChild(hiddenDownloadLink);
+        });
+
+        // Initialize display configuration state machine natively on runtime execute parameters 
+        switchView("KIOSK");
+    </script>
+</body>
+</html>
